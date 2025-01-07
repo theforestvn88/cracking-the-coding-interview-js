@@ -262,6 +262,106 @@ console.log(compressString("xxxxxxxxxxyyyyyyyzzzzzxxyyzz"));
 
 
 
+// ================================================================================================
+//
+//
+// Cracking Interview 1.7
+// Rotate Matrix
+// Given an image represented by an NxN matrix, where each pixel in the image
+// is 4 bytes, write a method to rotate the image by 90 degrees.
+// Could you do this In Place ?
+//
+function rotate_90(matrix) {
+	let size = matrix.length - 1;
+	let aHalf = Math.floor(matrix.length/2);
+	for(let x = 0; x < aHalf; x++) {
+		for(let y = 0; y < aHalf; y++) {
+			let temp = matrix[x][y]; 
+			matrix[x][y] = matrix[size - y][x];
+			matrix[size - y][x] = matrix[size - x][size - y];
+			matrix[size - x][size - y] = matrix[y][size - x];
+			matrix[y][size - x] = temp;
+		}
+	}
+}
+
+let m = [
+	[1,2,3,4],
+	[5,6,7,8],
+	[9,10,11,12],
+	[13,14,15,16]
+]
+
+rotate_90(m);
+console.log(m);
+
+
+//====================================================================================================
+//
+//
+//
+//
+// Crackintg Interview 1.8
+// Zero Matrix
+// Write an algorithm such that if an element in an MxN matrix is 0, 
+// its entire row and column are set to 0.
+//
+function setZerosRow(matrix, rowIndex) {
+	for (let i = 0; i < matrix[rowIndex].length; i++) {
+		matrix[rowIndex][i] = 0;
+	}
+}
+
+function setZerosColumn(matrix, columnIndex) {
+	for (let i = 0; i < matrix.length; i++) {
+		matrix[i][columnIndex] = 0;
+	}
+}
+
+function setZerosMatrix(matrix) {
+	let firstZerosRow = false, 
+			firstZerosColumn = false;
+
+	for (let i = 0; i < matrix.length; i++) {
+		for (let j = 0; j < matrix[i].length; j++) {
+			if (matrix[i][j] == 0) {
+				if (i > 0 && j > 0) {
+					matrix[0][j] = 0;
+					matrix[i][0] = 0;
+				} else {
+					if (i == 0) firstZerosRow = true;
+					if (j == 0) firstZerosColumn = true;
+				}
+			}
+		}
+	}
+
+	for (let i = matrix.length - 1; i > 0; i--) {
+		if (matrix[i][0] == 0) {
+			setZerosRow(matrix, i);
+		}
+	}
+
+	for (let j = matrix[0].length - 1; j > 0; j--) {
+		if (matrix[0][j] == 0) {
+			setZerosColumn(matrix, j);
+		}
+	}
+
+	if (firstZerosRow) setZerosRow(0);
+	if (firstZerosColumn) setZerosColumn(0);
+}
+
+let matrix = [
+	[1,2,3,4,5,6],
+	[7,8,9,1,0,3],
+	[3,5,6,7,2,3],
+	[0,1,1,1,1,1]
+];
+
+setZerosMatrix(matrix);
+console.log(matrix);
+
 
 // ==================================================================================
 //
